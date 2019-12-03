@@ -2,25 +2,38 @@ document.addEventListener('DOMContentLoaded', () => {
   // your solution here
   // grab DOM elements
   const listDiv = document.getElementById("app-content");
+  const app = new TaskLister();
 
-  // const app = new TaskLister();
+  const divList = createList();
+  listDiv.append(divList)
 
-  const divLists = createList()
+  let list = new List("aaaa")
+  console.log(list.render())
+  divList.append(list.render())
 
-  listDiv.append(divLists)
+  listDiv.addEventListener("click", (e) => {
+    console.log(e.target)
+    if (e.target){
 
-  document.getElementById('create-list-form').addEventListener("submit", evt => {
-    evt.preventDefault();
-    let name = evt.target.querySelector("#new-list-title").value
-    if(document.querySelectorAll("button[data-title]"))
-    divLists.append(renderTask(name))
+    }
   })
 
-});
+  // listDiv.append(dicList)
 
-function find(){
+
+
+  // document.getElementById('create-list-form').addEventListener("submit", evt => {
+  //   evt.preventDefault();
+  //   let name = evt.target.querySelector("#new-list-title").value
+  //   if(document.querySelectorAll("button[data-title]")){
+  //     divLists.append(new List(name))
+  //   }
+  // })
+
   
-}
+
+
+});
 
 //create a lists
 function createList(){
@@ -29,15 +42,3 @@ function createList(){
   return div
 }
 
-function renderTask(name){
-  let div = document.createElement("div")
-  div.innerHTML = `
-  <h2>
-    ${name}
-    <button data-title="${name}" class="delete-list">X</button>
-  </h2>
-  `
-  let ul = document.createElement("ul")
-  div.append(ul)
-  return div
-}

@@ -1,6 +1,10 @@
 class Task {
   // your code here
-  constructor(){
+  constructor(name){
+    this.name = name
+  }
 
+  render(){
+    return 0
   }
 }

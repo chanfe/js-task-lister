@@ -11,7 +11,7 @@ class List {
     div.innerHTML = `
     <h2>
       ${name}
-      <button data-title="${name}" class="delete-list">X</button>
+      <button id="${name}" class="delete-list">X</button>
     </h2>
     `
     let ul = document.createElement("ul")

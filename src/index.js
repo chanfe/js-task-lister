@@ -24,26 +24,33 @@ document.addEventListener('DOMContentLoaded', () => {
     let name = evt.target.querySelector("#new-list-title").value
     if(document.querySelectorAll("button[data-title]")){
       let newlist = new List(name)
-      if(!(newlist in listArray)){
-        listArray[newlist] = 1
+      // console.log(listArray, newlist)
+      if(!(name in listArray)){
+        listArray[name] = newlist
         divList.appendChild(newlist.render())
       }
       else{
         alert("List titles must be unique")
       }
-      
     }
-    evt.target.reset();
-    console.log(listArray, name)
-    console.log(divList.innerHTML)
-    // listArray.map((ele) => divList.appendChild(ele.render()))
-    
+    let buttons=document.getElementsByTagName('button');
+    console.log(buttons)
+    for (let item of buttons) {
+      item.addEventListener("click", evt => {
+        removeList(item.id)
+        delete listArray[item.id]
+      })
+    }
+
+    evt.target.reset();    
   })
 
   
 
-  
-
+  // console.log(document.getElementsByClassName('delete-list'))
+  // document.getElementsByClassName('delete-list').addEventListener("click", e =>{
+  //   console.log("click")
+  // })
 
 });
 
@@ -52,5 +59,11 @@ function createList(){
   let div = document.createElement("div")
   div.id = "lists"
   return div
+}
+
+function removeList(name){
+  var elem = document.getElementById(name);
+  console.log(elem.parentNode.parentNode)
+  elem.parentNode.parentNode.remove();
 }
 

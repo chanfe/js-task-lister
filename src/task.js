@@ -1,10 +1,18 @@
 class Task {
   // your code here
-  constructor(name){
-    this.name = name
+  constructor(title, priority="low") {
+    this.title = title;
+    this.priority = priority;
   }
 
-  render(){
-    return 0
+  render() {
+    return `
+      <li>
+        Task ${this.title}
+        <button data-list-title="${this.title}" data-task-name="mocha" class="delete-task">X</button>
+        <br>
+        Priority: ${this.priority};
+      </li>
+      `;
   }
 }

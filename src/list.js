@@ -16,13 +16,12 @@ class List {
     `
     let ul = document.createElement("ul")
     div.append(ul)
-    
     return div
   }
 
-  addtask(name){
-    let task = new Task(name)
-    this.task.append(task)
+  addtask(name, priority){
+    let task = new Task(name, priority)
+    this.task.push(task)
   }
 
   render(){

@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (Object.keys(listArray).length <= 1){
           listDiv.prepend(tasklister.render())
         }
+        else{
+          document.getElementById('create-task-form').remove();
+          listDiv.prepend(tasklister.render())
+        }
         divList.appendChild(newlist.render())
       }
       else{
@@ -37,13 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     let buttons=document.getElementsByTagName('button');
-    console.log(buttons)
+
     for (let item of buttons) {
       item.addEventListener("click", evt => {
         removeList(item.id)
         delete listArray[item.id]
         if (Object.keys(listArray).length === 0){
           document.getElementById('create-task-form').remove();
+        }
+        else{
+          let tasklister = new TaskLister(Object.keys(listArray))
+          document.getElementById('create-task-form').remove();
+          listDiv.prepend(tasklister.render())
         }
       })
     }

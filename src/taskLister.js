@@ -1,7 +1,7 @@
 class TaskLister {
   // your solution here
-  constructor(){
-
+  constructor(options){
+    this.options = options
   }
 
   _renderList(){
@@ -13,9 +13,7 @@ class TaskLister {
         <!-- Major key alert:
         read the docs for HTML option selected:
         https://www.w3schools.com/tags/att_option_selected.asp -->
-      <option value="My Dank List" selected>
-        My Dank List
-      </option>
+      ${this.options.map( e => this._option(e))}
       </select>
   
       <label for="new-task-description">Task description:</label>
@@ -26,6 +24,12 @@ class TaskLister {
       <input type="submit" value="Create New Task">
   `
     return form
+  }
+
+  _option(option){
+    return `<option value=${option} selected>
+    ${option}
+  </option>`
   }
 
   render() {

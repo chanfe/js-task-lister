@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let newlist = new List(name)
       if(!(name in listArray)){
         listArray[name] = newlist
+        let tasklister = new TaskLister(Object.keys(listArray))
         if (Object.keys(listArray).length <= 1){
-          let tasklister = new TaskLister()
           listDiv.prepend(tasklister.render())
         }
         divList.appendChild(newlist.render())
@@ -49,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     evt.target.reset();    
+  })
+
+  document.getElementById('create-task-form').addEventListener("submit", evt => {
+    evt.preventDefault();
+
   })
 
 

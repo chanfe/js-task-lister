@@ -24,9 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let name = evt.target.querySelector("#new-list-title").value
     if(document.querySelectorAll("button[data-title]")){
       let newlist = new List(name)
-      // console.log(listArray, newlist)
       if(!(name in listArray)){
         listArray[name] = newlist
+        if (Object.keys(listArray).length <= 1){
+          let tasklister = new TaskLister()
+          listDiv.prepend(tasklister.render())
+        }
         divList.appendChild(newlist.render())
       }
       else{
@@ -39,18 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
       item.addEventListener("click", evt => {
         removeList(item.id)
         delete listArray[item.id]
+        if (Object.keys(listArray).length === 0){
+          document.getElementById('create-task-form').remove();
+        }
       })
     }
 
     evt.target.reset();    
   })
 
-  
-
-  // console.log(document.getElementsByClassName('delete-list'))
-  // document.getElementsByClassName('delete-list').addEventListener("click", e =>{
-  //   console.log("click")
-  // })
 
 });
 

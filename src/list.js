@@ -15,13 +15,19 @@ class List {
     </h2>
     `
     let ul = document.createElement("ul")
+
+    this.tasks.map(e => {
+      console.log(e.render())
+      ul.appendChild(e.render())
+    })
+
     div.append(ul)
     return div
   }
 
   addtask(name, priority){
     let task = new Task(name, priority)
-    this.task.push(task)
+    this.tasks.push(task)
   }
 
   render(){

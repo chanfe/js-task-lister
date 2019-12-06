@@ -1,7 +1,7 @@
 class TaskLister {
   // your solution here
-  constructor(options){
-    this.options = options
+  constructor(){
+    this.options = []
   }
 
   _renderList(){
@@ -30,6 +30,14 @@ class TaskLister {
     return `<option value=${option} selected>
     ${option}
   </option>`
+  }
+
+  add_option(option){
+    this.options.push(option)
+  }
+
+  remove_option(option){
+    this.options.filter(arrayItem => arrayItem !== option);
   }
 
   render() {

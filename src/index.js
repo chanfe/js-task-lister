@@ -2,57 +2,55 @@ document.addEventListener('DOMContentLoaded', () => {
   // your solution here
   // grab DOM elements
   const listDiv = document.getElementById("app-content");
-  const app = new TaskLister();
+  
 
   const divList = createList();
   listDiv.append(divList)
 
-  // listDiv.addEventListener("click", (e) => {
-  //   console.log(e.target.querySelector('.delete-list'))
-  //   if (e.target.querySelector('.delete-list').click()){
-  //     console.log("click")
-  //   }
-  // })
-  // let a = listDiv.querySelector('.delete-list')
-  // console.log(a)
-  // listDiv.append(dicList)
+  let listObj = {}
+  const app = new TaskLister();
 
-
-  let listArray = {}
   document.getElementById('create-list-form').addEventListener("submit", evt => {
     evt.preventDefault();
     let name = evt.target.querySelector("#new-list-title").value
     if(document.querySelectorAll("button[data-title]")){
       let newlist = new List(name)
-      if(!(name in listArray)){
-        listArray[name] = newlist
-        let tasklister = new TaskLister(Object.keys(listArray))
-        if (Object.keys(listArray).length <= 1){
-          listDiv.prepend(tasklister.render())
+      if(!(name in listObj)){
+        listObj[name] = newlist
+        app.add_option(name)
+        if (Object.keys(listObj).length <= 1){
+          listDiv.prepend(app.render())
         }
         else{
           document.getElementById('create-task-form').remove();
-          listDiv.prepend(tasklister.render())
+          listDiv.prepend(app.render())
         }
-        divList.appendChild(newlist.render())
+
+        divList.innerHTML = ""
+
+        Object.values(listObj).map(e => {
+          divList.appendChild(e.render())
+        }) 
+
       }
       else{
         alert("List titles must be unique")
       }
     }
     let buttons=document.getElementsByTagName('button');
-
+    
     for (let item of buttons) {
       item.addEventListener("click", evt => {
         removeList(item.id)
-        delete listArray[item.id]
-        if (Object.keys(listArray).length === 0){
+        delete listObj[item.id]
+        app.remove_option(item.id)
+
+        if (Object.keys(listObj).length === 0){
           document.getElementById('create-task-form').remove();
         }
-        else{
-          let tasklister = new TaskLister(Object.keys(listArray))
+        else{          
           document.getElementById('create-task-form').remove();
-          listDiv.prepend(tasklister.render())
+          listDiv.prepend(app.render())
         }
       })
     }
@@ -60,13 +58,31 @@ document.addEventListener('DOMContentLoaded', () => {
     evt.target.reset();    
   })
 
-  document.getElementById('create-task-form').addEventListener("submit", evt => {
-    evt.preventDefault();
-
-  })
-
 
 });
+
+function listean(listObj, divList){
+  document.getElementById('create-task-form').addEventListener("submit", evt => {
+    evt.preventDefault();
+    let name = evt.target.querySelector("#parent-list").value
+    let descript = evt.target.querySelector("#new-task-description").value
+    let priority = evt.target.querySelector("#new-task-priority").value
+    if (priority === ""){
+      priority = "low"
+    }
+    listObj[name].addtask(descript, priority)
+
+    console.log(divList)
+    divList.innerHTML = ""
+
+    Object.values(listObj).map(e => {
+      console.log(e)
+      divList.appendChild(e.render())
+    }) 
+    
+    evt.target.reset(); 
+  })
+}
 
 //create a lists
 function createList(){

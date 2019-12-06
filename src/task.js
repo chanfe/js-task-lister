@@ -1,18 +1,22 @@
 class Task {
   // your code here
-  constructor(title, priority="low") {
+  constructor(title, priority) {
     this.title = title;
     this.priority = priority;
   }
 
+  _rendertask(title, priority){
+    let li = document.createElement("li")
+    li.innerHTML = `
+    Task: ${title}
+    <button data-list-title="${title}" data-task-name="mocha" class="delete-task">X</button>
+    <br>
+    Priority: ${priority}
+    `
+    return li
+  }
+
   render() {
-    return `
-      <li>
-        Task ${this.title}
-        <button data-list-title="${this.title}" data-task-name="mocha" class="delete-task">X</button>
-        <br>
-        Priority: ${this.priority};
-      </li>
-      `;
+    return this._rendertask(this.title, this.priority)
   }
 }

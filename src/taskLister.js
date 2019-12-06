@@ -37,7 +37,7 @@ class TaskLister {
   }
 
   remove_option(option){
-    this.options.filter(arrayItem => arrayItem !== option);
+    this.options = this.options.filter(arrayItem => arrayItem != option);
   }
 
   render() {

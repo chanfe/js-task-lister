@@ -8,11 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   listDiv.append(divList)
 
   let listObj = {}
+
   const app = new TaskLister();
+  const UI = document.getElementById("lists");
 
   document.getElementById('create-list-form').addEventListener("submit", evt => {
     evt.preventDefault();
     let name = evt.target.querySelector("#new-list-title").value
+
     if(document.querySelectorAll("button[data-title]")){
       let newlist = new List(name)
       if(!(name in listObj)){
@@ -37,32 +40,25 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("List titles must be unique")
       }
     }
-    let buttons=document.getElementsByTagName('button');
-    
-    for (let item of buttons) {
-      item.addEventListener("click", evt => {
-        removeList(item.id)
-        delete listObj[item.id]
-        app.remove_option(item.id)
-
-        if (Object.keys(listObj).length === 0){
-          document.getElementById('create-task-form').remove();
-        }
-        else{          
-          document.getElementById('create-task-form').remove();
-          listDiv.prepend(app.render())
-        }
-      })
-    }
-
     evt.target.reset();    
   })
 
+  UI.addEventListener("click", e => {
+    if (e.target.nodeName === "BUTTON") {
+      removeList(e.target.id)
+      delete listObj[e.target.id]
+      app.remove_option(e.target.id)
+      if (Object.keys(listObj).length === 0){
+        document.getElementById('create-task-form').remove();
+      }
+      else{          
+        document.getElementById('create-task-form').remove();
+        listDiv.prepend(app.render())
+      }
+    }
+  })
 
-});
-
-function listean(listObj, divList){
-  document.getElementById('create-task-form').addEventListener("submit", evt => {
+  listDiv.addEventListener("submit", evt => {
     evt.preventDefault();
     let name = evt.target.querySelector("#parent-list").value
     let descript = evt.target.querySelector("#new-task-description").value
@@ -76,13 +72,37 @@ function listean(listObj, divList){
     divList.innerHTML = ""
 
     Object.values(listObj).map(e => {
-      console.log(e)
       divList.appendChild(e.render())
     }) 
     
     evt.target.reset(); 
   })
-}
+
+
+});
+
+// function listean(listObj, divList){
+//   document.getElementById('create-task-form').addEventListener("submit", evt => {
+//     evt.preventDefault();
+//     let name = evt.target.querySelector("#parent-list").value
+//     let descript = evt.target.querySelector("#new-task-description").value
+//     let priority = evt.target.querySelector("#new-task-priority").value
+//     if (priority === ""){
+//       priority = "low"
+//     }
+//     listObj[name].addtask(descript, priority)
+
+//     console.log(divList)
+//     divList.innerHTML = ""
+
+//     Object.values(listObj).map(e => {
+//       console.log(e)
+//       divList.appendChild(e.render())
+//     }) 
+    
+//     evt.target.reset(); 
+//   })
+// }
 
 //create a lists
 function createList(){
@@ -93,7 +113,7 @@ function createList(){
 
 function removeList(name){
   var elem = document.getElementById(name);
-  console.log(elem.parentNode.parentNode)
+  console.log(elem)
   elem.parentNode.parentNode.remove();
 }
 

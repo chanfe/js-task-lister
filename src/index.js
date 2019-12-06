@@ -45,16 +45,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   UI.addEventListener("click", e => {
     if (e.target.nodeName === "BUTTON") {
-      removeList(e.target.id)
-      delete listObj[e.target.id]
-      app.remove_option(e.target.id)
-      if (Object.keys(listObj).length === 0){
-        document.getElementById('create-task-form').remove();
+      if(e.target.matches(".delete-list")){
+        let list = e.target.attributes["data-title"].value
+
+        delete listObj[list]
+        app.remove_option(list)
+
+        divList.innerHTML = ""
+
+        Object.values(listObj).map(e => {
+          divList.appendChild(e.render())
+        }) 
+
+        if (Object.keys(listObj).length === 0){
+          document.getElementById('create-task-form').remove();
+        }
+        else{          
+          document.getElementById('create-task-form').remove();
+          listDiv.prepend(app.render())
+        }
       }
-      else{          
-        document.getElementById('create-task-form').remove();
-        listDiv.prepend(app.render())
+      else if (e.target.matches(".delete-task")){
+        let list = e.target.attributes["data-list-title"].value
+        let task = e.target.attributes["data-task-name"].value
+        
+        listObj[list].remove_task(task)
+        divList.innerHTML = ""
+
+        Object.values(listObj).map(e => {
+          divList.appendChild(e.render())
+        }) 
       }
+      
     }
   })
 
@@ -66,9 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (priority === ""){
       priority = "low"
     }
+
     listObj[name].addtask(descript, priority)
 
-    console.log(divList)
     divList.innerHTML = ""
 
     Object.values(listObj).map(e => {
@@ -81,29 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// function listean(listObj, divList){
-//   document.getElementById('create-task-form').addEventListener("submit", evt => {
-//     evt.preventDefault();
-//     let name = evt.target.querySelector("#parent-list").value
-//     let descript = evt.target.querySelector("#new-task-description").value
-//     let priority = evt.target.querySelector("#new-task-priority").value
-//     if (priority === ""){
-//       priority = "low"
-//     }
-//     listObj[name].addtask(descript, priority)
-
-//     console.log(divList)
-//     divList.innerHTML = ""
-
-//     Object.values(listObj).map(e => {
-//       console.log(e)
-//       divList.appendChild(e.render())
-//     }) 
-    
-//     evt.target.reset(); 
-//   })
-// }
-
 //create a lists
 function createList(){
   let div = document.createElement("div")
@@ -113,7 +112,6 @@ function createList(){
 
 function removeList(name){
   var elem = document.getElementById(name);
-  console.log(elem)
   elem.parentNode.parentNode.remove();
 }
 

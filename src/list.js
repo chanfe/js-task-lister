@@ -4,6 +4,7 @@ class List {
   constructor(name){
     this.name = name
     this.tasks = []
+    this.tasknames = []
   }
 
   _renderList(name){
@@ -11,13 +12,12 @@ class List {
     div.innerHTML = `
     <h2>
       ${name}
-      <button id="${name}" class="delete-list">X</button>
+      <button data-title="${name}" class="delete-list">X</button>
     </h2>
     `
     let ul = document.createElement("ul")
 
     this.tasks.map(e => {
-      console.log(e.render())
       ul.appendChild(e.render())
     })
 
@@ -25,10 +25,23 @@ class List {
     return div
   }
 
-  addtask(name, priority){
-    let task = new Task(name, priority)
-    this.tasks.push(task)
+  addtask(taskname, priority){
+    let task = new Task(this.name, taskname, priority)
+    if(this.tasknames.includes(taskname)){
+      alert("Task descriptions must be unique")
+    }
+    else{
+      this.tasknames.push(taskname)
+      this.tasks.push(task)
+    }
+  
   }
+
+  remove_task(task){
+    this.tasks = this.tasks.filter(arrayItem => arrayItem.title != task);
+    this.tasknames = this.tasknames.filter(arrayItem => arrayItem != task);
+  }
+
 
   render(){
     return this._renderList(this.name)
